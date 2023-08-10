@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="nums.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/solid.css" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+        <div class="options">
+            <div class="option speed">
+                <label for="speed">Speed:</label>
+                <input id="speed" type="range" value="5" min="3" max="15" autocomplete="off">
+                <div class="speed_value">5s</div>
+            </div>
+            <div class="option game_mode">
+                <span>Mode:</span>
+                <button class="button hardness active" data-mode="fleeca" value="4 2">Fleeca</button>
+                <button class="button hardness" data-mode="paleto" value="5 2">Paleto</button>
+                <button class="button hardness" data-mode="vault" value="6 2">Vault</button>
+                <button class="button hardness" data-mode="paleto" value="5 3">Bobcat</button>
+            </div>
+            <div class="option streaks">
+                <span>Actual Streaks:</span>
+                <span class="actual_streak">0</span>
+                <span>| Max Streak:</span>
+                <span class="max_streak">0</span>
+            </div>
+            <div class="option audio">
+                <span class="fa">&#xf028;</span>
+            </div>
+        </div>
+        <div class="minigame">
+            <div class="timer hidden">
+                <div class="progress active"><div class="progress-bar timer-progress"></div></div>
+                <audio preload="auto" loop>
+                    <source src="audio_timer.ogg" type="audio/ogg">
+                </audio>
+            </div>
+            <div class="splash">
+                <div class="fa hacker">&#xf21b;</div>
+                <span class="message">Fleeca Hacking Minigame</span>
+                <button class="glow-on-hover start_btn" onclick="playBtnMinigame()">HACK ME BITCH</button>
+                <audio preload="auto">
+                    <source src="audio_splash.ogg" type="audio/ogg">
+                </audio>
+            </div>
+            <div class="squares hidden">
+                <div class="columns">
+                    <div class="cards">
+                        <div class="guess_number hidden"></div>
+                        <div class="shape hidden"></div>
+                        <div class="top_text hidden"></div>
+                        <div class="number hidden"></div>
+                        <div class="bottom_text hidden"></div>
+                    </div>
+                    <div class="cards">
+                        <div class="guess_number hidden"></div>
+                        <div class="shape hidden"></div>
+                        <div class="top_text hidden"></div>
+                        <div class="number hidden"></div>
+                        <div class="bottom_text hidden"></div>
+                    </div>
+                    <div class="cards">
+                        <div class="guess_number hidden"></div>
+                        <div class="shape hidden"></div>
+                        <div class="top_text hidden"></div>
+                        <div class="number hidden"></div>
+                        <div class="bottom_text hidden"></div>
+                    </div>
+                    <div class="cards">
+                        <div class="guess_number hidden"></div>
+                        <div class="shape hidden"></div>
+                        <div class="top_text hidden"></div>
+                        <div class="number hidden"></div>
+                        <div class="bottom_text hidden"></div>
+                    </div>
+                </div>
+                <div class="columns">
+                    <div class="cards">
+                        <div class="guess_number hidden"></div>
+                        <div class="shape hidden"></div>
+                        <div class="top_text hidden"></div>
+                        <div class="number hidden"></div>
+                        <div class="bottom_text hidden"></div>
+                    </div>
+                    <div class="cards">
+                        <div class="guess_number hidden"></div>
+                        <div class="shape hidden"></div>
+                        <div class="top_text hidden"></div>
+                        <div class="number hidden"></div>
+                        <div class="bottom_text hidden"></div>
+                    </div>
+                    <div class="cards">
+                        <div class="guess_number hidden"></div>
+                        <div class="shape hidden"></div>
+                        <div class="top_text hidden"></div>
+                        <div class="number hidden"></div>
+                        <div class="bottom_text hidden"></div>
+                    </div>
+                    <div class="cards">
+                        <div class="guess_number hidden"></div>
+                        <div class="shape hidden"></div>
+                        <div class="top_text hidden"></div>
+                        <div class="number hidden"></div>
+                        <div class="bottom_text hidden"></div>
+                    </div>
+                </div>
+                <div class="columns">
+                    <div class="cards">
+                        <div class="guess_number hidden"></div>
+                        <div class="shape hidden"></div>
+                        <div class="top_text hidden"></div>
+                        <div class="number hidden"></div>
+                        <div class="bottom_text hidden"></div>
+                    </div>
+                    <div class="cards">
+                        <div class="guess_number hidden"></div>
+                        <div class="shape hidden"></div>
+                        <div class="top_text hidden"></div>
+                        <div class="number hidden"></div>
+                        <div class="bottom_text hidden"></div>
+                    </div>
+                    <div class="cards">
+                        <div class="guess_number hidden"></div>
+                        <div class="shape hidden"></div>
+                        <div class="top_text hidden"></div>
+                        <div class="number hidden"></div>
+                        <div class="bottom_text hidden"></div>
+                    </div>
+                    <div class="cards">
+                        <div class="guess_number hidden"></div>
+                        <div class="shape hidden"></div>
+                        <div class="top_text hidden"></div>
+                        <div class="number hidden"></div>
+                        <div class="bottom_text hidden"></div>
+                    </div>
+                </div>
+
+            </div>
+            
+        </div>
+        <div class="result hidden">
+            <p class="result_guess"></p>
+            <input class="result_text" id="solution_input" type="text" placeholder="blue triangle">
+            <p class="correct_solution hidden"></p>
+            <button class="glow-on-hover again_btn" onclick="againButton()">AGAIN</button>
+        </div>
+
+
+    </div>
+    <script src="nums.js"></script>
+</body>
+
+</html>
