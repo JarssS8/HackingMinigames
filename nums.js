@@ -66,7 +66,7 @@ function getRandomNumbers(num, max = 11) {
         }
         randomKeys.push(randomKey);
 
-        let randomNumber = Math.floor(Math.random() * 14) + 1;
+        let randomNumber = Math.floor(Math.random() * 12) + 1;
         if (randomNumbers.includes(randomNumber)) {
             i--;
             continue;
@@ -115,7 +115,7 @@ function createGuessNumbers(numberGuess, solutions) {
             let correctSolution = document.getElementsByClassName("correct_solution");
             correctSolution[0].classList.remove("hidden");
             correctSolution[0].innerHTML = "OH OH OH, WRONG ANSWER!\nCorrect answer is: " + solutionTxt;
-        }, speed);
+        }, speed + 300);
 
     }, 4000);
 }
@@ -156,6 +156,8 @@ input.addEventListener("keypress", function (event) {
                 maxStreak[0].innerHTML = actualStreak[0].innerHTML;
             }
             clearTimeout(timeoutMinigame);
+            let correctSolution = document.getElementsByClassName("correct_solution");
+            correctSolution[0].classList.add("hidden");
             againButton()
         } else {
             actualStreak[0].innerHTML = 0;
@@ -197,6 +199,7 @@ function againButton() {
     correctSolution[0].classList = "correct_solution hidden";
     solutionTxt = "";
     input.value = "";
+    clearTimeout(timeoutMinigame);
     startGame();
 }
 
