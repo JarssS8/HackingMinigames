@@ -47,7 +47,7 @@ function restartMiniGame(bReset) {
     }
     id = setInterval(frame, 10);
     function frame() {
-        if (width <= 0) {
+        if (width < 0) {
             for (let i = 0; i < squares.length; i++) {
                 if (squares[i].classList.contains("active-square")) {
                     squares[i].classList.add("endgame-square-active")

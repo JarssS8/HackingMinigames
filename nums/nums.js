@@ -49,7 +49,6 @@ function startGame() {
             sols = parseInt(valuesArr[1]);
         }
     }
-
     createGuessNumbers(numbers, sols);
 }
 
@@ -105,15 +104,25 @@ function createGuessNumbers(numberGuess, solutions) {
         let progressBar = document.getElementsByClassName("progress-bar")[0];
         progressBar.style.transitionDuration = '0s';
         progressBar.style.width = '100%';
-        speed *= 1000;
-
-        timeoutMinigame = setTimeout(() => {
-            let actualStreak = document.getElementsByClassName("actual_streak");
-            actualStreak[0].innerHTML = 0;
-            let correctSolution = document.getElementsByClassName("correct_solution");
-            correctSolution[0].classList.remove("hidden");
-            correctSolution[0].innerHTML = "OH OH OH, WRONG ANSWER!\nCorrect answer is: " + solutionTxt;
-        }, speed + 300);
+        speed *= 1000 + 300;
+        let width = 100;
+        let speedBar = 10 * 1 / (speed / 100);
+        timeoutMinigame = setInterval(frame, 10);
+        function frame() {
+            if (width < 0) {
+                let actualStreak = document.getElementsByClassName("actual_streak");
+                actualStreak[0].innerHTML = 0;
+                let correctSolution = document.getElementsByClassName("correct_solution");
+                correctSolution[0].classList.remove("hidden");
+                correctSolution[0].innerHTML = "OH OH OH, WRONG ANSWER!\nCorrect answer is: " + solutionTxt;
+                let input = document.getElementById("solution_input");
+                input.disabled = true;
+                clearInterval(id);
+            } else {
+                width -= speedBar;
+                progressBar.style.width = width + '%';
+            }
+        }
 
     }, 4000);
 }
@@ -133,6 +142,10 @@ for (let i = 0; i < hardness.length; i++) {
             console.log("No squares found");
             return;
         }
+        let actualStreak = document.getElementsByClassName("actual_streak");
+        actualStreak[0].innerHTML = 0;
+        let maxStreak = document.getElementsByClassName("max_streak");
+        maxStreak[0].innerHTML = 0;
         clearTimeout(timeout);
         splash[0].classList.remove("hidden");
         squares[0].classList.add("hidden");
@@ -179,6 +192,8 @@ function againButton() {
     let cards = document.getElementsByClassName("cards");
     let results = document.getElementsByClassName("result");
     let correctSolution = document.getElementsByClassName("correct_solution");
+    let input = document.getElementById("solution_input");
+    input.disabled = false;
     for (let i = 0; i < guessNumbers.length; i++) {
         guessNumbers[i].innerHTML = "";
     }
