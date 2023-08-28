@@ -76,9 +76,6 @@ function getRandomNumbers(num, max = 11) {
         randomNumberGuess[randomKey] = randomNumber;
     }
 
-    console.log(randomKeys);
-    console.log(randomNumbers);
-    console.log(randomNumberGuess);
     return randomNumberGuess;
 }
 
@@ -88,8 +85,8 @@ function createGuessNumbers(numberGuess, solutions) {
     console.log("createGuessNumbers");
     let guessNumbers = document.getElementsByClassName("guess_number");
     for (const [key, value] of Object.entries(randomNumbers)) {
-        console.log(key, value);
         guessNumbers[key].classList.remove("hidden");
+        guessNumbers[key].classList.add("guess_animation");
         guessNumbers[key].innerHTML = value;
     }
 
@@ -97,6 +94,7 @@ function createGuessNumbers(numberGuess, solutions) {
     timeout = setTimeout(() => {
         for (const [key, value] of Object.entries(randomNumbers)) {
             guessNumbers[key].classList.add("hidden");
+            guessNumbers[key].classList.remove("guess_animation");
             guessNumbers[key].innerHTML = "";
         }
         let timer = document.getElementsByClassName("timer");
@@ -105,8 +103,8 @@ function createGuessNumbers(numberGuess, solutions) {
         changeGuessText(randomNumbers, solutions, squaresValues);
         let speed = document.getElementById('speed').value;
         let progressBar = document.getElementsByClassName("progress-bar")[0];
-        progressBar.style.transitionDuration = speed + 's';
-        progressBar.style.width = '0px';
+        progressBar.style.transitionDuration = '0s';
+        progressBar.style.width = '100%';
         speed *= 1000;
 
         timeoutMinigame = setTimeout(() => {
