@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adivina el Color</title>
+    <!-- Agregar Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>Adivina el Color</h1>
+    <div id="options">
+        <label for="colors">Cantidad de iconos: <span id="icons-result">5</span></label>
+        <input type="range" id="colors" name="colors" min="3" max="9" value="5"
+            oninput="updateIcons('icons-result', this.value)">
+
+        <label for="remember-time">Tiempo recordar: <span id="remember-time-result">5s</span></label>
+        <input type="range" id="remember-time" name="remember-time" min="1" max="60" value="5"
+            oninput="updateValue('remember-time-result', this.value)">
+
+        <label for="think-time">Tiempo pensar: <span id="think-time-result">5s</span></label>
+        <input type="range" id="think-time" name="think-time" min="1" max="60" value="5"
+            oninput="updateValue('think-time-result', this.value)">
+    </div>
+    <div class="streak">
+        <p>Actual streak: <span id="streak">0</span></p>
+        <p>Best streak: <span id="best-streak">0</span></p>
+    </div>
+    <div id="icons" class="icons"></div>
+    <div id="game" style="display: none;">
+        <i id="currentIcon" class="icon hidden"></i>
+        <input type="text" id="colorInput" placeholder="Escribe el color">
+        <p id="feedback"></p>
+    </div>
+    <button id="start_btn" class="glow-on-hover start_btn" onclick="buttonStart()">HACK ME BITCH</button>
+    <div id="progress-container" style="display: none; margin-top: 20px;">
+        <label for="progress-bar">Tiempo restante para recordar:</label>
+        <progress id="progress-bar" value="0" max="100" style="width: 100%;"></progress>
+    </div>
+
+    <script src="./main.js"></script>
+</body>
+
+</html>
