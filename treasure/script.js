@@ -1,7 +1,7 @@
 // CONFIGURACIÓN
 const gridSize = 9;       // Tamaño de la cuadrícula (5x5, 6x6, etc.)
 const totalAttempts = 8;  // Intentos máximos
-let difficulty = 'easy';  // 'easy' o 'hard'
+let difficulty = 'hard';  // 'easy' o 'hard'
 
 // VARIABLES DE JUEGO
 let winningCell = null;
