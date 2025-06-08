@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Búsqueda del Tesoro</title>
+  <style>
+    body {
+      background-color: #1c1c1c;
+      color: white;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    #config {
+      margin-bottom: 20px;
+    }
+
+    select, input[type="number"], button {
+      padding: 5px 10px;
+      margin: 5px;
+      font-size: 16px;
+    }
+
+    #grid {
+      display: grid;
+      gap: 5px;
+    }
+
+    .cell {
+      width: 60px;
+      height: 60px;
+      background-color: #444;
+      border: 1px solid #666;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      font-size: 18px;
+      transition: background-color 0.3s;
+    }
+
+    .cell.clicked {
+      cursor: default;
+      color: white;
+      text-shadow:
+        -1px -1px 0 #000,
+         1px -1px 0 #000,
+        -1px  1px 0 #000,
+         1px  1px 0 #000;
+      font-weight: bold;
+    }
+
+    #info {
+      margin-top: 15px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Búsqueda del Tesoro</h1>
+
+  <div id="config">
+    <label>Dificultad:
+      <select id="difficultySelect">
+        <option value="easy">Fácil</option>
+        <option value="hard">Difícil</option>
+      </select>
+    </label>
+    <label>Tamaño del Grid:
+      <input type="number" id="gridSizeInput" min="3" max="10" value="5" />
+    </label>
+    <label>Intentos:
+      <input type="number" id="attemptsInput" min="1" max="20" value="8" />
+    </label>
+    <button onclick="startGame()">Iniciar</button>
+  </div>
+
+  <div id="grid"></div>
+  <div id="info" style="display: none;">Intentos restantes: <span id="attemptsLeft">0</span></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
