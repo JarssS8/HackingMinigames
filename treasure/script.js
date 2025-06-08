@@ -1,6 +1,6 @@
 let gridSize = 5;
 let totalAttempts = 8;
-let difficulty = 'easy';
+let difficulty = 'hard';
 
 let winningCell = null;
 let attemptsLeft = 0;
