@@ -1,6 +1,6 @@
 let gridSize = 5;
 let totalAttempts = 8;
-let difficulty = 'hard';
+let difficulty = 'easy';
 
 let winningCell = null;
 let attemptsLeft = 0;
@@ -32,13 +32,15 @@ function getDistance(a, b) {
   return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
 }
 
-function getHeatColor(distance) {
-  const maxDistance = gridSize * 2 - 2;
-  const ratio = 1 - (distance / maxDistance);
-  const red = Math.round(255 * (1 - ratio));
-  const green = Math.round(200 * ratio);
-  const blue = 50;
-  return `rgb(${red}, ${green}, ${blue})`;
+function getPastelColor(distance) {
+  if (distance === 0) return '#a3f7bf';       // Ganador - verde fuerte pastel
+  if (distance === 1) return '#c1ffc1';       // Verde lima claro
+  if (distance === 2) return '#b0c4de';       // Azul pastel
+  if (distance === 3) return '#b2e0f7';       // Celeste
+  if (distance === 4) return '#d6f5d6';       // Verde muy claro
+  if (distance === 5) return '#fff2b2';       // Amarillo pastel
+  if (distance === 6) return '#ffdab9';       // Durazno pastel
+  return '#f8c8dc';                           // Muy lejos - rosa suave
 }
 
 function createGrid() {
@@ -66,7 +68,7 @@ function handleCellClick(e) {
   const y = parseInt(cell.dataset.y);
   const clicked = { x, y };
   const distance = getDistance(clicked, winningCell);
-  const color = getHeatColor(distance);
+  const color = getPastelColor(distance);
 
   cell.classList.add('clicked');
   cell.style.backgroundColor = color;
@@ -77,7 +79,7 @@ function handleCellClick(e) {
 
   if (distance === 0) {
     cell.textContent = '🏆';
-    cell.style.backgroundColor = '#00c853';
+    cell.style.backgroundColor = '#a3f7bf';
     disableAllCells();
     return;
   }
@@ -98,7 +100,7 @@ function revealWinningCell() {
     const y = parseInt(cell.dataset.y);
     if (x === winningCell.x && y === winningCell.y) {
       cell.classList.add('clicked');
-      cell.style.backgroundColor = '#00c853';
+      cell.style.backgroundColor = '#a3f7bf';
       cell.textContent = '🏆';
     }
   });
