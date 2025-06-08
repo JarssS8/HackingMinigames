@@ -1,39 +1,46 @@
-// CONFIGURACIÓN
-const gridSize = 9;       // Tamaño de la cuadrícula (5x5, 6x6, etc.)
-const totalAttempts = 8;  // Intentos máximos
-let difficulty = 'easy';  // 'easy' o 'hard'
+let gridSize = 5;
+let totalAttempts = 8;
+let difficulty = 'easy';
 
-// VARIABLES DE JUEGO
 let winningCell = null;
-let attemptsLeft = totalAttempts;
+let attemptsLeft = 0;
 
 const grid = document.getElementById('grid');
 const attemptsDisplay = document.getElementById('attemptsLeft');
+const info = document.getElementById('info');
 
-// GENERAR CELDA GANADORA
-function generateWinningCell() {
-  const x = Math.floor(Math.random() * gridSize);
-  const y = Math.floor(Math.random() * gridSize);
-  return { x, y };
+function startGame() {
+  difficulty = document.getElementById('difficultySelect').value;
+  gridSize = parseInt(document.getElementById('gridSizeInput').value);
+  totalAttempts = parseInt(document.getElementById('attemptsInput').value);
+
+  attemptsLeft = totalAttempts;
+  winningCell = generateWinningCell();
+  attemptsDisplay.textContent = attemptsLeft;
+  info.style.display = 'block';
+  createGrid();
 }
 
-// DISTANCIA MANHATTAN
+function generateWinningCell() {
+  return {
+    x: Math.floor(Math.random() * gridSize),
+    y: Math.floor(Math.random() * gridSize)
+  };
+}
+
 function getDistance(a, b) {
   return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
 }
 
-// MAPA DE CALOR PASTEL
-function getPastelColor(distance) {
-  switch (distance) {
-    case 0: return '#a3f7bf';  // Verde pastel (ganador)
-    case 1: return '#b3e5fc';  // Azul pastel
-    case 2: return '#fff9b0';  // Amarillo claro
-    case 3: return '#ffd6a5';  // Naranja pastel
-    default: return '#ffb3ba'; // Rosa pastel
-  }
+function getHeatColor(distance) {
+  const maxDistance = gridSize * 2 - 2;
+  const ratio = 1 - (distance / maxDistance);
+  const red = Math.round(255 * (1 - ratio));
+  const green = Math.round(200 * ratio);
+  const blue = 50;
+  return `rgb(${red}, ${green}, ${blue})`;
 }
 
-// CREAR CUADRÍCULA
 function createGrid() {
   grid.innerHTML = '';
   grid.style.gridTemplateColumns = `repeat(${gridSize}, 60px)`;
@@ -51,7 +58,6 @@ function createGrid() {
   }
 }
 
-// CLIC EN CELDA
 function handleCellClick(e) {
   const cell = e.target;
   if (cell.classList.contains('clicked') || attemptsLeft <= 0) return;
@@ -60,7 +66,7 @@ function handleCellClick(e) {
   const y = parseInt(cell.dataset.y);
   const clicked = { x, y };
   const distance = getDistance(clicked, winningCell);
-  const color = getPastelColor(distance);
+  const color = getHeatColor(distance);
 
   cell.classList.add('clicked');
   cell.style.backgroundColor = color;
@@ -71,7 +77,7 @@ function handleCellClick(e) {
 
   if (distance === 0) {
     cell.textContent = '🏆';
-    cell.style.backgroundColor = '#a3f7bf';
+    cell.style.backgroundColor = '#00c853';
     disableAllCells();
     return;
   }
@@ -85,7 +91,6 @@ function handleCellClick(e) {
   }
 }
 
-// MOSTRAR CASILLA GANADORA
 function revealWinningCell() {
   const cells = document.querySelectorAll('.cell');
   cells.forEach(cell => {
@@ -93,26 +98,14 @@ function revealWinningCell() {
     const y = parseInt(cell.dataset.y);
     if (x === winningCell.x && y === winningCell.y) {
       cell.classList.add('clicked');
-      cell.style.backgroundColor = '#a3f7bf';
+      cell.style.backgroundColor = '#00c853';
       cell.textContent = '🏆';
     }
   });
 }
 
-// DESACTIVAR TODAS LAS CELDAS
 function disableAllCells() {
   document.querySelectorAll('.cell').forEach(cell =>
     cell.removeEventListener('click', handleCellClick)
   );
 }
-
-// REINICIAR JUEGO
-function resetGame() {
-  winningCell = generateWinningCell();
-  attemptsLeft = totalAttempts;
-  attemptsDisplay.textContent = attemptsLeft;
-  createGrid();
-}
-
-// INICIAR
-resetGame();
