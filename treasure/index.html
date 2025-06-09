@@ -1,67 +1,114 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
   <title>Búsqueda del Tesoro</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     body {
-      background-color: #1c1c1c;
-      color: white;
       font-family: Arial, sans-serif;
+      background-color: #1e1e2f;
+      color: #f0f0f0;
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin: 0;
-      padding: 20px;
-    }
-
-    h1 {
-      margin-bottom: 10px;
+      padding: 2rem;
     }
 
     #config {
-      margin-bottom: 20px;
+      margin-bottom: 1.5rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
     }
 
-    select, input[type="number"], button {
-      padding: 5px 10px;
-      margin: 5px;
-      font-size: 16px;
+    label {
+      font-size: 1rem;
+    }
+
+    input, select, button {
+      margin-left: 0.5rem;
+      font-size: 1rem;
     }
 
     #grid {
       display: grid;
-      gap: 5px;
+      gap: 4px;
     }
 
     .cell {
       width: 60px;
       height: 60px;
-      background-color: #444;
-      border: 1px solid #666;
+      background-color: #2a2a3d;
+      border-radius: 8px;
       display: flex;
       justify-content: center;
       align-items: center;
+      font-size: 1.6rem;
+      font-weight: bold;
       cursor: pointer;
-      font-size: 18px;
-      transition: background-color 0.3s;
+      user-select: none;
+      border: 1px solid #555;
+      color: white;
     }
 
     .cell.clicked {
       cursor: default;
-      color: white;
+    }
+
+    .cell i, .cell span {
       text-shadow:
-        -1px -1px 0 #000,
-         1px -1px 0 #000,
-        -1px  1px 0 #000,
-         1px  1px 0 #000;
-      font-weight: bold;
+        -1px -1px 0 black,
+        1px -1px 0 black,
+        -1px 1px 0 black,
+        1px 1px 0 black;
     }
 
     #info {
-      margin-top: 15px;
-      font-size: 18px;
+      margin-top: 1rem;
+      font-size: 1.1rem;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    #timeBarContainer {
+      width: 100%;
+      max-width: 320px;
+      height: 12px;
+      background: #333;
+      border-radius: 6px;
+      margin-top: 12px;
+    }
+
+    #timeBar {
+      height: 100%;
+      width: 100%;
+      background: linear-gradient(90deg, #0eb05a, #ffd966, #ff4d4d);
+      border-radius: 6px;
+      transition: width 0.2s;
+    }
+
+    #gameDescription {
+      max-width: 600px;
+      margin-bottom: 1.2rem;
+      background: #232347;
+      padding: 1rem 1.5rem;
+      border-radius: 10px;
+      font-size: 1.08rem;
+    }
+
+    #gameDescription b {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    #gameDescription ul {
+      margin-top: 0.5em;
+      margin-bottom: 0.5em;
+      padding-left: 1.2em;
     }
   </style>
 </head>
@@ -75,18 +122,62 @@
         <option value="hard">Difícil</option>
       </select>
     </label>
-    <label>Tamaño del Grid:
-      <input type="number" id="gridSizeInput" min="3" max="10" value="5" />
+
+    <label>Modo de pista:
+      <select id="hintModeSelect" onchange="updateVisualModeVisibility()">
+        <option value="number">Números</option>
+        <option value="icons">Iconos</option>
+        <option value="coloronly">Solo colores</option>
+      </select>
     </label>
+
+    <label id="visualModeLabel">Visual:
+      <select id="visualModeSelect">
+        <option value="color">Colores</option>
+        <option value="nocolor">Sin colores</option>
+      </select>
+    </label>
+
+    <label>Tamaño del grid:
+      <input type="number" id="gridSizeInput" value="5" min="3" max="15">
+    </label>
+
     <label>Intentos:
-      <input type="number" id="attemptsInput" min="1" max="20" value="8" />
+      <input type="number" id="attemptsInput" value="8" min="1" max="50">
     </label>
-    <button onclick="startGame()">Iniciar</button>
+
+    <label>Tiempo (s):
+      <input type="range" id="timeSlider" min="1" max="60" value="10" oninput="document.getElementById('timeValue').textContent = this.value">
+      <span id="timeValue">10</span>
+    </label>
+
+    <button onclick="startGame()">Comenzar juego</button>
   </div>
 
   <div id="grid"></div>
-  <div id="info" style="display: none;">Intentos restantes: <span id="attemptsLeft">0</span></div>
+
+  <div id="info" style="display: none;">
+    Intentos restantes: <span id="attemptsLeft">8</span>
+    &nbsp;|&nbsp;
+    Tiempo restante: <span id="timeLeft">30</span> s
+  </div>
+
+  <div id="timeBarContainer">
+    <div id="timeBar"></div>
+  </div>
 
   <script src="script.js"></script>
+
+  <div id="gameDescription" style="max-width: 600px; margin: 2rem auto 0 auto; background: #232347; padding: 1rem 1.5rem; border-radius: 10px; font-size: 1.08rem;">
+    <b>¿Cómo jugar?</b><br>
+    El objetivo es encontrar el tesoro oculto en la cuadrícula antes de que se acaben tus intentos o el tiempo.<br>
+    <ul style="margin-top: 0.5em; margin-bottom: 0.5em;">
+      <li>Selecciona la dificultad, el tipo de pista, el tamaño de la cuadrícula, los intentos y el tiempo con los controles de arriba.</li>
+      <li>Haz clic en las casillas para buscar el tesoro. Según el modo de pista, recibirás pistas numéricas, iconos o colores sobre la cercanía al tesoro.</li>
+      <li>¡Ganas si encuentras el tesoro antes de que se acaben los intentos o el tiempo!</li>
+      <li>La barra de color muestra el tiempo restante.</li>
+    </ul>
+    ¡Buena suerte!
+  </div>
 </body>
 </html>
