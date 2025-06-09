@@ -1,6 +1,5 @@
 let gridSize = 5;
 let totalAttempts = 8;
-let difficulty = 'easy';
 let hintMode = 'number'; // number, icons, coloronly
 let visualMode = 'color'; // color, nocolor
 
@@ -28,7 +27,6 @@ function updateVisualModeVisibility() {
 }
 
 function startGame() {
-  difficulty = document.getElementById('difficultySelect').value;
   hintMode = document.getElementById('hintModeSelect').value;
   visualMode = document.getElementById('visualModeSelect').value;
   gridSize = parseInt(document.getElementById('gridSizeInput').value);
@@ -126,7 +124,6 @@ function handleCellClick(e) {
     return;
   }
 
-  if (difficulty === 'easy') {
     if (hintMode === 'icons') {
       const icon = document.createElement('i');
       icon.classList.add('fas', getChessIconClass(distance));
@@ -136,7 +133,6 @@ function handleCellClick(e) {
       span.textContent = distance;
       cell.appendChild(span);
     }
-  }
 
   if (visualMode === 'color' || hintMode === 'coloronly') {
     cell.style.backgroundColor = getHeatColor(distance);
